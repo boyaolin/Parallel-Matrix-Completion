@@ -169,7 +169,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    //srand (time(NULL));
+    srand(time(NULL));
 
     int m = atoi(argv[1]), n = atoi(argv[2]), k = 100, ite = 0;
     float lambda = 0.05;
@@ -215,11 +215,9 @@ int main(int argc, char** argv) {
     while(ite<maxIter){
         assignItemToUser(userQueue,I);
         cudaMemcpy(dI, I, sizeof(int)*m, cudaMemcpyHostToDevice);
-        
-        
+           
         SGD<<<numBlocks, numThreads>>>(dA,dW,dH,dI,dT,m,n,k,lambda);
         
-
         assignNextItem(userQueue,I);
         ite++;
         cudaDeviceSynchronize();
